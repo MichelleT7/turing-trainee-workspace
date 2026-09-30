@@ -89,6 +89,16 @@ El procesamiento se realiza únicamente sobre tareas pendientes y se registra el
 
 El código contiene comentarios para explicar las principales decisiones y etapas del procesamiento.
 
+## Conclusión
+
+Se desarrolló una automatización de tareas laborales utilizando Google Apps Script e integrando Google Sheets, Gmail y Google Calendar.
+
+La solución permite procesar automáticamente las tareas pendientes, calcular los días restantes, actualizar la información registrada, enviar notificaciones por correo electrónico y crear eventos en Calendar.
+
+También se configuró un activador basado en tiempo para ejecutar el proceso automáticamente.
+
+Las pruebas realizadas permitieron verificar el funcionamiento de cada componente y la integración entre los diferentes servicios de Google Workspace.
+
 ## Flujo de trabajo
 
 El flujo implementado es el siguiente:
