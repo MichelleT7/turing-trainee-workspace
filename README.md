@@ -79,6 +79,16 @@ La configuración fue verificada desde la sección de Triggers de Google Apps Sc
 - Google Calendar
 - Triggers de Google Apps Script
 
+## Decisiones técnicas
+
+Se utilizó Google Apps Script debido a su integración directa con Google Workspace.
+
+La automatización utiliza Google Sheets como fuente de información y conecta Gmail y Google Calendar para generar acciones automáticamente.
+
+El procesamiento se realiza únicamente sobre tareas pendientes y se registra el identificador del evento de Calendar en la hoja para mantener control sobre los eventos generados.
+
+El código contiene comentarios para explicar las principales decisiones y etapas del procesamiento.
+
 ## Flujo de trabajo
 
 El flujo implementado es el siguiente:
