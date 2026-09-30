@@ -17,6 +17,59 @@ Automatizar el procesamiento de tareas laborales registradas en Google Sheets, p
 - Crear automáticamente un evento en Google Calendar.
 - Ejecutar el proceso automáticamente mediante un activador basado en tiempo (Time-based Trigger).
 
+  ## Configuración del proyecto
+
+### 1. Creación de Google Sheets
+
+Se creó una hoja de cálculo para registrar y administrar las tareas laborales.
+
+La estructura utilizada fue:
+
+| Campo | Descripción |
+|---|---|
+| ID | Identificador de la tarea |
+| Tarea | Nombre o descripción de la tarea |
+| Responsable | Persona responsable |
+| Correo | Correo electrónico del responsable |
+| Fecha límite | Fecha establecida para completar la tarea |
+| Prioridad | Prioridad de la tarea |
+| Estado | Estado actual de la tarea |
+| Días restantes | Días disponibles antes de la fecha límite |
+| Evento Calendar | Identificador del evento creado en Google Calendar |
+
+### 2. Creación de Google Apps Script
+
+Se creó un proyecto de Google Apps Script vinculado a Google Sheets.
+
+El script utiliza JavaScript para leer los registros de la hoja, procesar las tareas pendientes y actualizar automáticamente la información.
+
+### 3. Procesamiento de tareas
+
+La función principal `procesarTareas()` realiza las siguientes acciones:
+
+1. Obtiene la hoja activa.
+2. Lee los registros de tareas.
+3. Identifica las tareas pendientes.
+4. Calcula los días restantes.
+5. Actualiza la hoja de cálculo.
+6. Envía una notificación mediante Gmail.
+7. Crea un evento en Google Calendar.
+8. Registra el identificador del evento para evitar duplicados.
+
+
+## Automatización mediante Trigger
+
+Para ejecutar el proceso automáticamente se configuró un activador basado en tiempo (Time-based Trigger).
+
+El activador ejecuta la función:
+
+`procesarTareas`
+
+Esto permite que el procesamiento de las tareas se realice automáticamente sin necesidad de ejecutar manualmente el script.
+
+La configuración fue verificada desde la sección de Triggers de Google Apps Script.
+
+
 ## Tecnologías utilizadas
 
 - Google Sheets
