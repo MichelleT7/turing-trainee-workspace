@@ -99,33 +99,102 @@ También se configuró un activador basado en tiempo para ejecutar el proceso au
 
 Las pruebas realizadas permitieron verificar el funcionamiento de cada componente y la integración entre los diferentes servicios de Google Workspace.
 
-## Flujo de trabajo
 
-El flujo implementado es el siguiente:
+## Diagrama de arquitectura
+
+El sistema está compuesto por un bucket de Google Cloud Storage, una función
+de procesamiento de archivos, una cuenta de servicio con permisos mínimos y
+Cloud Logging para el registro y monitoreo de eventos.
+
+```mermaid
+flowchart LR
+
+    U[Usuario]
+    
+    B[(Google Cloud Storage<br/>turing-trainee-gcp-files-2026)]
+    
+    E[Evento de subida<br/>de archivo]
+    
+    F[Cloud Function / Cloud Run<br/>turing-gcp-file-metadata]
+    
+    SA[Service Account<br/>turing-gcp-file-metadata-sa]
+    
+    L[Cloud Logging]
+    
+    P[Validación y extracción<br/>de metadatos]
+    
+    U -->|Sube archivo| B
+    B -->|Dispara evento| E
+    E --> F
+    
+    F --> P
+    
+    F -.->|Identidad y permisos| SA
+    
+    P -->|Registra información| L
+    
+    P -->|Nombre, tamaño,<br/>tipo y extensión| L
+
+
+
+
+
+
+### 2. ¿Cómo se verá conceptualmente?
+
+El flujo que estás documentando sería:
 
 ```text
-Google Sheets
-     |
-     v
-Google Apps Script
-     |
-     v
-Detectar tarea pendiente
-     |
-     v
-Calcular días restantes
-     |
-     v
-Actualizar Google Sheets
-     |
-     +--------------------+
-     |                    |
-     v                    v
-   Gmail             Google Calendar
-     |                    |
-     v                    v
-Notificación         Crear evento
+                    ┌─────────────────┐
+                    │     Usuario     │
+                    └────────┬────────┘
+                             │
+                       Sube archivo
+                             │
+                             ▼
+              ┌───────────────────────────┐
+              │      Cloud Storage        │
+              │                           │
+              │ turing-trainee-gcp-       │
+              │ files-2026                │
+              └─────────────┬─────────────┘
+                            │
+                       Evento de carga
+                            │
+                            ▼
+              ┌───────────────────────────┐
+              │      Cloud Function       │
+              │ turing-gcp-file-metadata  │
+              │                           │
+              │     process_file()        │
+              └─────────────┬─────────────┘
+                            │
+                    ┌───────┴────────┐
+                    │                │
+                    ▼                ▼
+             ┌─────────────┐  ┌───────────────┐
+             │ Validación  │  │   Cloud       │
+             │ de archivo  │  │   Logging     │
+             └─────────────┘  └───────────────┘
+                    │
+                    ▼
+             ┌─────────────────┐
+             │ Metadatos       │
+             │ • Nombre        │
+             │ • Tamaño        │
+             │ • Tipo MIME     │
+             │ • Extensión     │
+             └─────────────────┘
 
+                     ▲
+                     │
+             ┌───────┴────────┐
+             │ Service Account │
+             │ metadata-sa     │
+             │                 │
+             │ Storage Object  │
+             │ Viewer          │
+             └─────────────────┘
 
 
 
